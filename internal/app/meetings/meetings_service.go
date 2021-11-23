@@ -10,7 +10,7 @@ type Service interface {
 }
 
 type Scheduler interface {
-	GetMeetings(ctx context.Context, startTime, endTime string) ([]Meeting, error)
+	GetMeetings(ctx context.Context, companyID int64, startTime, endTime string) ([]Meeting, error)
 	CreateMeeting(ctx context.Context, meeting Meeting) error
 }
 
@@ -18,9 +18,9 @@ type service struct {
 	adapter
 }
 
-func (s *service) GetMeetings(ctx context.Context, startTime, endTime string) ([]Meeting, error) {
+func (s *service) GetMeetings(ctx context.Context, companyID int64, startTime, endTime string) ([]Meeting, error) {
 	startTime, endTime = CalculateWeek()
-	return s.adapter.GetMeetings(ctx, startTime, endTime)
+	return s.adapter.GetMeetings(ctx, companyID, startTime, endTime)
 }
 
 func (s *service) CreateMeeting(ctx context.Context, meeting Meeting) error {

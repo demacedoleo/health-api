@@ -3,20 +3,22 @@ package meetings
 import (
 	"context"
 	"errors"
+
+	oops "github.com/demacedoleo/health-api/internal/app/errors"
 	"github.com/demacedoleo/health-api/internal/platform/mysql"
 )
 
 var (
-	ErrMappingMeetings  = errors.New("error mapping meetings")
-	ErrNotFoundMeetings = errors.New("not found meetings")
+	ErrInternalScan = errors.New("errors mapping meetings")
+	ErrNotFound     = errors.New("not found meetings")
 )
 
 type adapter struct {
 	mysql.Repository
 }
 
-func (a *adapter) GetMeetings(ctx context.Context, startTime, endTime string) ([]Meeting, error) {
-	result, err := a.Fetch(ctx, mysql.Statements.Selects.Meetings, startTime, endTime)
+func (a *adapter) GetMeetings(ctx context.Context, companyID int64, startTime, endTime string) ([]Meeting, error) {
+	result, err := a.Fetch(ctx, mysql.Statements.Selects.Meetings, companyID, startTime, endTime)
 	if err != nil {
 		return nil, err
 	}
@@ -26,16 +28,16 @@ func (a *adapter) GetMeetings(ctx context.Context, startTime, endTime string) ([
 		var meeting Meeting
 
 		if err := result.Scan(&meeting.ID, &meeting.EventID, &meeting.CompanyID, &meeting.Subject,
-			&meeting.MeetStatus, &meeting.StartTime, &meeting.EndTime, &meeting.ModalityID, &meeting.AttendantDocument,
+			&meeting.MeetStatus, &meeting.StartTime, &meeting.EndTime, &meeting.Modality, &meeting.AttendantDocument,
 			&meeting.AttendantPhone, &meeting.ResourceID, &meeting.CreatedAt, &meeting.UpdatedAt); err != nil {
-			return nil, ErrMappingMeetings
+			return nil, oops.NewError(ErrInternalScan).AddStack(err)
 		}
 
 		meetings = append(meetings, meeting)
 	}
 
 	if len(meetings) == 0 {
-		return nil, ErrNotFoundMeetings
+		return nil, oops.NewError(ErrNotFound)
 	}
 
 	return meetings, nil

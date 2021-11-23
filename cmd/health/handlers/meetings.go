@@ -3,8 +3,10 @@ package handlers
 import (
 	"github.com/demacedoleo/health-api/cmd/health/handlers/entities"
 	"github.com/demacedoleo/health-api/cmd/health/handlers/presenter"
+	"github.com/demacedoleo/health-api/internal/app/errors"
 	"github.com/demacedoleo/health-api/internal/app/meetings"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -19,15 +21,28 @@ type meetingsHandler struct {
 
 func (m *meetingsHandler) GetMeetings(c *gin.Context) {
 	//TODO: hard coded dates
-	meetings, err := m.service.GetMeetings(c.Request.Context(), "", "")
-	if err != nil {
+	companyID := c.GetInt64("company_id")
+
+	meets, err := m.service.GetMeetings(c.Request.Context(), companyID, "", "")
+	if errors.Is(err, meetings.ErrInternalScan) {
+		log.Println(errors.Format(err))
+
 		c.JSON(http.StatusInternalServerError, presenter.Error{
 			Message: err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, presenter.Meetings(meetings))
+	if errors.Is(err, meetings.ErrNotFound) {
+		log.Println(errors.Format(err))
+
+		c.JSON(http.StatusNotFound, presenter.Error{
+			Message: err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, presenter.Meetings(meets))
 }
 
 func (m *meetingsHandler) CreateMeeting(c *gin.Context) {

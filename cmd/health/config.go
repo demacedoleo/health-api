@@ -14,6 +14,7 @@ type Dependencies struct {
 	locationAdapter mysql.Repository
 	healthAdapter   mysql.Repository
 	meetingAdapter  mysql.Repository
+	staffsAdapter   mysql.Repository
 }
 
 func BuildDependencies(env environment.Environment) (*Dependencies, error) {
@@ -26,6 +27,7 @@ func BuildDependencies(env environment.Environment) (*Dependencies, error) {
 			locationAdapter: location.NewLocationsAdapter(db),
 			healthAdapter:   health.NewProvidersAdapter(db),
 			meetingAdapter:  meetings.NewMeetingsAdapter(db),
+			staffsAdapter:   company.NewStaffsAdapter(db),
 		}, nil
 	}
 

@@ -19,6 +19,7 @@ type Staff struct {
 	Address   Address
 	Schedule  []WorkDay
 	Status    bool
+	Color     string
 }
 
 type Register struct {
@@ -32,6 +33,7 @@ type Charge struct {
 	CompanyID   int64
 	ChargeType  string
 	JobPosition string
+	Color       string
 	Status      bool
 }
 

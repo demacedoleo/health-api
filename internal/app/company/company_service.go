@@ -2,6 +2,7 @@ package company
 
 import (
 	"context"
+
 	"github.com/demacedoleo/health-api/internal/platform/mysql"
 )
 
@@ -10,6 +11,13 @@ type Service interface {
 	Modalities
 	Roles
 	Staffs
+}
+
+type service struct {
+	Institution Institution
+	Modalities  Modalities
+	Roles       Roles
+	Staffs      Staffs
 }
 
 type Institution interface {
@@ -30,13 +38,6 @@ type Modalities interface {
 type Staffs interface {
 	FindStaffs(ctx context.Context, companyID int64) ([]Staff, error)
 	CreateStaff(ctx context.Context, staff Staff) error
-}
-
-type service struct {
-	Institution Institution
-	Modalities  Modalities
-	Roles       Roles
-	Staffs      Staffs
 }
 
 func (s *service) GetCompany(ctx context.Context, id int64) (*Company, error) {

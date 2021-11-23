@@ -18,7 +18,8 @@ type StaffFlatten struct {
 	Doc       string `json:"document,omitempty"`
 	Person
 	Charge
-	Status bool `json:"status,omitempty"`
+	Status bool   `json:"status,omitempty"`
+	Color  string `json:"color,omitempty"`
 }
 
 type Register struct {
@@ -32,6 +33,7 @@ type Charge struct {
 	CompanyID   int64  `json:"company_id,omitempty"`
 	ChargeType  string `json:"charge_type,omitempty"`
 	JobPosition string `json:"job_position,omitempty"`
+	Color       string `json:"color"`
 	Status      bool   `json:"status,omitempty"`
 }
 

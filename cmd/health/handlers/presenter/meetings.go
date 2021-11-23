@@ -16,7 +16,7 @@ func Meetings(meetings []meetings.Meeting) []entities.Meeting {
 			MeetStatus:        meeting.MeetStatus,
 			StartTime:         meeting.StartTime,
 			EndTime:           meeting.EndTime,
-			ModalityID:        meeting.ModalityID,
+			Modality:          meeting.Modality,
 			AttendantDocument: meeting.AttendantDocument,
 			AttendantPhone:    meeting.AttendantPhone,
 			ResourceID:        meeting.ResourceID,

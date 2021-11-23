@@ -9,7 +9,7 @@ import (
 func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
-		log.Println("an error '%s' was not expected when opening a stub database connection: " + err.Error())
+		log.Println("an errors '%s' was not expected when opening a stub database connection: " + err.Error())
 	}
 
 	return db, mock

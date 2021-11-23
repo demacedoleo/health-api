@@ -1,17 +1,15 @@
 package handlers
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/demacedoleo/health-api/cmd/health/handlers/entities"
 	"github.com/demacedoleo/health-api/cmd/health/handlers/presenter"
 	"github.com/demacedoleo/health-api/internal/app/company"
+	"github.com/demacedoleo/health-api/internal/app/errors"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
-
-type StaffsHandler interface {
-	CreateStaffs(c *gin.Context)
-	FindStaffs(c *gin.Context)
-}
 
 func (ch *companyHandler) CreateStaff(c *gin.Context) {
 	var s entities.Staff
@@ -70,11 +68,25 @@ func (ch *companyHandler) CreateStaff(c *gin.Context) {
 
 func (ch *companyHandler) FindStaffs(c *gin.Context) {
 	companyID := c.GetInt64("company_id")
+
 	staffs, err := ch.company.FindStaffs(c.Request.Context(), companyID)
-	if err != nil {
+	if errors.Is(err, company.ErrInternalScan) {
+		log.Println(errors.Format(err))
+
 		c.JSON(http.StatusInternalServerError, presenter.Error{
 			StatusCode: http.StatusInternalServerError,
 			Code:       "internal_error",
+			Message:    err.Error(),
+		})
+		return
+	}
+
+	if errors.Is(err, company.ErrNotFound) {
+		err.Error()
+
+		c.JSON(http.StatusNotFound, presenter.Error{
+			StatusCode: http.StatusInternalServerError,
+			Code:       "not_found",
 			Message:    err.Error(),
 		})
 		return

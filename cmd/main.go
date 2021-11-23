@@ -1,10 +1,11 @@
 package main
 
 import (
-	app "github.com/demacedoleo/health-api/cmd/health"
-	"github.com/demacedoleo/health-api/internal/platform/environment"
 	"log"
 	"os"
+
+	app "github.com/demacedoleo/health-api/cmd/health"
+	"github.com/demacedoleo/health-api/internal/platform/environment"
 )
 
 const (

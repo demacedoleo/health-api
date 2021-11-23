@@ -13,6 +13,12 @@ type CompanyHandler interface {
 	ReadCompany(c *gin.Context)
 	CreateCompany(c *gin.Context)
 	RolesHandler
+	StaffsHandler
+}
+
+type StaffsHandler interface {
+	CreateStaffs(c *gin.Context)
+	FindStaffs(c *gin.Context)
 }
 
 type RolesHandler interface {

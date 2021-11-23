@@ -19,10 +19,10 @@ type Meeting struct {
 	MeetStatus        string
 	StartTime         time.Time
 	EndTime           time.Time
-	ModalityID        int64
 	AttendantDocument string
 	AttendantPhone    string
 	ResourceID        int64
+	Modality          string
 	CreatedAt         string
 	UpdatedAt         string
 }

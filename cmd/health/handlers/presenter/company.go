@@ -48,6 +48,7 @@ func Staffs(staffs []company.Staff) []entities.StaffFlatten {
 			Person:    entities.Person(s.Person),
 			Charge:    entities.Charge(s.Job),
 			Status:    s.Status,
+			Color:     s.Color,
 		}
 	}
 	return output

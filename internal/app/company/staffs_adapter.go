@@ -3,12 +3,14 @@ package company
 import (
 	"context"
 	"errors"
+
+	oops "github.com/demacedoleo/health-api/internal/app/errors"
 	"github.com/demacedoleo/health-api/internal/platform/mysql"
 )
 
 var (
-	ErrStaffsScan     = errors.New("cannot iterate over rows")
-	ErrNotFoundStaffs = errors.New("not found staffs")
+	ErrInternalScan = errors.New("cannot iterate over rows")
+	ErrNotFound     = errors.New("not found staffs")
 )
 
 type staffsAdapter struct {
@@ -20,22 +22,23 @@ func (s *staffsAdapter) FindStaffs(ctx context.Context, companyID int64) ([]Staf
 	if err != nil {
 		return nil, err
 	}
+
 	var staffs []Staff
 	for result.Next() {
 		var staff Staff
 		if err := result.
 			Scan(&staff.ID, &staff.Job.CompanyID, &staff.Job.Document, &staff.Job.ChargeType,
-				&staff.Job.JobPosition, &staff.Status, &staff.Person.Document, &staff.Person.Name,
+				&staff.Job.JobPosition, &staff.Status, &staff.Color, &staff.Person.Document, &staff.Person.Name,
 				&staff.Person.LastName, &staff.Person.Birthday, &staff.Person.Gender,
 			); err != nil {
-			return nil, ErrStaffsScan
+			return nil, oops.NewError(ErrInternalScan).AddStack(err)
 		}
 
 		staffs = append(staffs, staff)
 	}
 
 	if len(staffs) == 0 {
-		return nil, ErrNotFoundStaffs
+		return nil, oops.NewError(ErrNotFound)
 	}
 
 	return staffs, nil

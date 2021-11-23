@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ErrMappingCompany  = errors.New("error mapping company")
+	ErrMappingCompany  = errors.New("errors mapping company")
 	ErrNotFoundCompany = errors.New("not found company")
 )
 
