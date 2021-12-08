@@ -14,6 +14,7 @@ import (
 func (ch *companyHandler) CreateStaff(c *gin.Context) {
 	var s entities.Staff
 	s.CompanyID = c.GetInt64("company_id")
+
 	if err := c.ShouldBindJSON(&s); err != nil {
 		c.JSON(http.StatusBadRequest, presenter.Error{
 			StatusCode: http.StatusBadRequest,
@@ -30,6 +31,7 @@ func (ch *companyHandler) CreateStaff(c *gin.Context) {
 	staff.Contact = company.Contact(s.Contact)
 	staff.Address = company.Address(s.Address)
 	staff.Status = true
+	staff.Color = s.Color
 
 	staff.Schedule = make([]company.WorkDay, 0)
 	staff.Registers = make([]company.Register, 0)

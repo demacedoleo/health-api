@@ -9,6 +9,7 @@ type Staff struct {
 	Contact   Contact   `json:"contact,omitempty"`
 	Address   Address   `json:"address,omitempty"`
 	Schedule  []WorkDay `json:"schedule,omitempty"`
+	Color     string    `json:"color,omitempty"`
 	Status    bool      `json:"status,omitempty"`
 }
 
