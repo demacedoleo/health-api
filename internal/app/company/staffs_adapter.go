@@ -22,6 +22,7 @@ func (s *staffsAdapter) FindStaffs(ctx context.Context, companyID int64) ([]Staf
 	if err != nil {
 		return nil, err
 	}
+	defer result.Close()
 
 	var staffs []Staff
 	for result.Next() {

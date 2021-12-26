@@ -58,10 +58,11 @@ type PersonType int
 const (
 	TypeStaff PersonType = iota
 	TypeRelative
+	TypeCustomer
 )
 
 func (p PersonType) ToString() string {
-	return []string{"STAFF", "RELATIVE"}[p]
+	return []string{"STAFF", "RELATIVE", "CUSTOMER"}[p]
 }
 
 func (a *Address) IsValid() bool {

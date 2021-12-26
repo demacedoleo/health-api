@@ -1,7 +1,10 @@
 package test
 
 import (
+	"context"
+	"fmt"
 	company2 "github.com/demacedoleo/health-api/internal/app/company"
+	"github.com/demacedoleo/health-api/internal/client"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -21,4 +24,11 @@ func TestCompany_ToString_Nil(t *testing.T) {
 
 	expectedString := `null`
 	assert.Equal(t, expectedString, company.ToString())
+}
+
+func TestSisa(t *testing.T) {
+	data, err := client.GetProfessional(context.Background(), "11762487")
+
+	fmt.Println(err)
+	fmt.Println(data)
 }

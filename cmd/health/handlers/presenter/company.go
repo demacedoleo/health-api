@@ -53,3 +53,22 @@ func Staffs(staffs []company.Staff) []entities.StaffFlatten {
 	}
 	return output
 }
+
+func Customers(customers []company.Customer) []entities.Person {
+	output := make([]entities.Person, len(customers))
+	for i, c := range customers {
+		output[i] = entities.Person{
+			ID:        c.Person.ID,
+			Document:  c.Person.Document,
+			CompanyID: c.Person.CompanyID,
+			Name:      c.Person.Name,
+			LastName:  c.Person.LastName,
+			Birthday:  c.Person.Birthday,
+			Gender:    c.Person.Gender,
+			Type:      c.Person.Type,
+			CreatedAt: c.Person.CreatedAt,
+			UpdatedAt: c.Person.UpdatedAt,
+		}
+	}
+	return output
+}

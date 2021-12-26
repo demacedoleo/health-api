@@ -96,3 +96,32 @@ func (ch *companyHandler) FindStaffs(c *gin.Context) {
 
 	c.JSON(http.StatusOK, presenter.Staffs(staffs))
 }
+
+func (ch *companyHandler) FindProfessional(c *gin.Context) {
+	companyID := c.GetInt64("company_id")
+
+	staffs, err := ch.company.FindStaffs(c.Request.Context(), companyID)
+	if errors.Is(err, company.ErrInternalScan) {
+		log.Println(errors.Format(err))
+
+		c.JSON(http.StatusInternalServerError, presenter.Error{
+			StatusCode: http.StatusInternalServerError,
+			Code:       "internal_error",
+			Message:    err.Error(),
+		})
+		return
+	}
+
+	if errors.Is(err, company.ErrNotFound) {
+		err.Error()
+
+		c.JSON(http.StatusNotFound, presenter.Error{
+			StatusCode: http.StatusInternalServerError,
+			Code:       "not_found",
+			Message:    err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, presenter.Staffs(staffs))
+}

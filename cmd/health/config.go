@@ -10,11 +10,12 @@ import (
 )
 
 type Dependencies struct {
-	companyAdapter  mysql.Repository
-	locationAdapter mysql.Repository
-	healthAdapter   mysql.Repository
-	meetingAdapter  mysql.Repository
-	staffsAdapter   mysql.Repository
+	companyAdapter   mysql.Repository
+	locationAdapter  mysql.Repository
+	healthAdapter    mysql.Repository
+	meetingAdapter   mysql.Repository
+	staffsAdapter    mysql.Repository
+	customersAdapter mysql.Repository
 }
 
 func BuildDependencies(env environment.Environment) (*Dependencies, error) {
@@ -23,11 +24,12 @@ func BuildDependencies(env environment.Environment) (*Dependencies, error) {
 		db := mysql.NewRepository(nil)
 
 		return &Dependencies{
-			companyAdapter:  company.NewCompanyAdapter(db),
-			locationAdapter: location.NewLocationsAdapter(db),
-			healthAdapter:   health.NewProvidersAdapter(db),
-			meetingAdapter:  meetings.NewMeetingsAdapter(db),
-			staffsAdapter:   company.NewStaffsAdapter(db),
+			companyAdapter:   company.NewCompanyAdapter(db),
+			locationAdapter:  location.NewLocationsAdapter(db),
+			healthAdapter:    health.NewProvidersAdapter(db),
+			meetingAdapter:   meetings.NewMeetingsAdapter(db),
+			staffsAdapter:    company.NewStaffsAdapter(db),
+			customersAdapter: company.NewCustomerAdapter(db),
 		}, nil
 	}
 

@@ -55,13 +55,13 @@ func init() {
 		dbName:          "health",
 		username:        "root",
 		password:        "root",
-		host:            "127.0.0.1:3306",
+		host:            "192.168.1.26:3306",
 		maxOpenConn:     500,
 		maxIdleConn:     10,
 		connMaxLifetime: 1000 * time.Millisecond,
 	})
 
 	if err != nil {
-		panic(err)
+		//panic(err)
 	}
 }

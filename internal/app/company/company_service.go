@@ -11,6 +11,7 @@ type Service interface {
 	Modalities
 	Roles
 	Staffs
+	Customers
 }
 
 type service struct {
@@ -18,6 +19,7 @@ type service struct {
 	Modalities  Modalities
 	Roles       Roles
 	Staffs      Staffs
+	Customers   Customers
 }
 
 type Institution interface {
@@ -38,6 +40,11 @@ type Modalities interface {
 type Staffs interface {
 	FindStaffs(ctx context.Context, companyID int64) ([]Staff, error)
 	CreateStaff(ctx context.Context, staff Staff) error
+}
+
+type Customers interface {
+	FindCustomers(ctx context.Context, companyID int64) ([]Customer, error)
+	CreateCustomers(ctx context.Context, staff CustomerHealth) error
 }
 
 func (s *service) GetCompany(ctx context.Context, id int64) (*Company, error) {
@@ -72,11 +79,20 @@ func (s *service) CreateStaff(ctx context.Context, staff Staff) error {
 	return s.Staffs.CreateStaff(ctx, staff)
 }
 
+func (s *service) FindCustomers(ctx context.Context, companyID int64) ([]Customer, error) {
+	return s.Customers.FindCustomers(ctx, companyID)
+}
+
+func (s *service) CreateCustomers(ctx context.Context, ch CustomerHealth) error {
+	return s.Customers.CreateCustomers(ctx, ch)
+}
+
 func NewCompanyService(repository mysql.Repository) *service {
 	return &service{
 		Institution: NewCompanyAdapter(repository),
 		Roles:       NewRolesAdapter(repository),
 		Modalities:  NewModalitiesAdapter(repository),
 		Staffs:      NewStaffsAdapter(repository),
+		Customers:   NewCustomerAdapter(repository),
 	}
 }

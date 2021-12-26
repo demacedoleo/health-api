@@ -32,6 +32,8 @@ func Build(dep *Dependencies) *gin.Engine {
 	health := r.Group("/health")
 	health.Use(handlers.Authentication)
 	{
+		health.POST("/scrapper", handlers.ScrapperAFJP)
+
 		// locations endpoints
 		health.GET("/locations/states", locationsHandler.GetStates)
 		health.GET("/locations/state/:state_id/cities", locationsHandler.GetCities)
@@ -50,6 +52,9 @@ func Build(dep *Dependencies) *gin.Engine {
 
 		health.GET("/company/staffs", companyHandler.FindStaffs)
 		health.POST("/company/staffs", companyHandler.CreateStaff)
+
+		health.GET("/company/customers", companyHandler.FindCustomers)
+		health.POST("/company/customers", companyHandler.CreateCustomers)
 
 		// health insurances providers
 		health.GET("/insurances", healthHandler.GetProviders)

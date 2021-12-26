@@ -8,6 +8,7 @@ type (
 		HealthProvider string
 		Meeting        string
 		Staff          string
+		Customer       string
 	}
 
 	selects struct {
@@ -19,6 +20,7 @@ type (
 		HealthProviders string
 		Meetings        string
 		Staffs          string
+		Customers       string
 	}
 
 	updates struct{}
@@ -42,6 +44,7 @@ var (
 			HealthProvider: "CALL InsertHealthProvider(?);",
 			Meeting:        "CALL InsertMeeting(?);",
 			Staff:          "CALL InsertStaff(?);",
+			Customer:       "CALL InsertCustomer(?);",
 		},
 		Selects: selects{
 			Company:         "select * from company where company_id = ?;",
@@ -52,6 +55,7 @@ var (
 			HealthProviders: "select * from company_health_providers where company_id = ?;",
 			Meetings:        "select * from health.scheduler_meetings where company_id = ? and start_time >= ? and end_time <= ?;",
 			Staffs:          "select cs.id, cs.company_id, cs.document, cs.charge_type, cs.job_position, cs.status, cs.color, p.document, p.person_name, p.last_name, p.birthday, p.gender from company_staffs as cs join person as p on cs.document = p.document where cs.company_id = ?;",
+			Customers:       "SELECT * FROM health.person where person_type = ? and company_id = ?;",
 		},
 	}
 )

@@ -14,11 +14,17 @@ type CompanyHandler interface {
 	CreateCompany(c *gin.Context)
 	RolesHandler
 	StaffsHandler
+	CustomersHandler
 }
 
 type StaffsHandler interface {
 	CreateStaffs(c *gin.Context)
 	FindStaffs(c *gin.Context)
+}
+
+type CustomersHandler interface {
+	CreateCustomers(c *gin.Context)
+	FindCustomers(c *gin.Context)
 }
 
 type RolesHandler interface {
